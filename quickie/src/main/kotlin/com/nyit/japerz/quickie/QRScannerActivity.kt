@@ -24,7 +24,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.nyit.japerz.quickie.config.ParcelableScannerConfig
-import io.github.g00fy2.quickie.databinding.QuickieScannerActivityBinding
+import com.nyit.japerz.quickie.databinding.QuickieScannerActivityBinding
 import com.nyit.japerz.quickie.extensions.toParcelableContentType
 import com.nyit.japerz.quickie.utils.MlKitErrorHandler
 import java.util.concurrent.ExecutorService

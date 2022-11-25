@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-  namespace = "io.github.g00fy2.quickie"
+  namespace = "com.nyit.japerz.quickie"
   resourcePrefix = "quickie"
   buildFeatures {
     viewBinding = true
@@ -44,7 +44,7 @@ dependencies {
   testRuntimeOnly(libs.test.junitEngine)
 }
 
-group = "io.github.g00fy2.quickie"
+group = "com.nyit.japerz.quickie"
 version = libs.versions.quickie.get()
 
 tasks.register<Jar>("androidJavadocJar") {

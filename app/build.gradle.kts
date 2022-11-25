@@ -29,7 +29,6 @@ android {
   flavorDimensions += "mlkit"
   productFlavors {
     create("bundled").dimension = "mlkit"
-    create("unbundled").dimension = "mlkit"
   }
   buildFeatures {
     viewBinding = true

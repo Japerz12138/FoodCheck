@@ -20,8 +20,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
-import io.github.g00fy2.quickie.R
-import io.github.g00fy2.quickie.databinding.QuickieOverlayViewBinding
+import com.nyit.japerz.quickie.R
+import com.nyit.japerz.quickie.databinding.QuickieOverlayViewBinding
 import kotlin.math.min
 import kotlin.math.roundToInt
 
