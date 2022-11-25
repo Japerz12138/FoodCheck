@@ -1,0 +1,52 @@
+[versions]
+quickie = "1.5.2"
+
+androidconfig-minSdk = "21"
+androidconfig-compileSdk = "32"
+androidconfig-targetSdk = "32"
+androidconfig-buildTools = "32.0.0"
+
+androidGradle = "7.3.1"
+kotlin = "1.7.20"
+
+appcompat = "1.5.1"
+
+cameraX = "1.1.0"
+
+barcodeScanning = "17.0.2"
+barcodeScanningGms = "18.1.0"
+
+materialDesign = "1.7.0"
+
+detekt = "1.21.0"
+gradleVersions = "0.43.0"
+dokka = "1.7.20"
+
+junit = "5.9.1"
+
+[libraries]
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-camera = { module = "androidx.camera:camera-camera2", version.ref = "cameraX" }
+androidx-cameraLifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraX" }
+androidx-cameraPreview = { module = "androidx.camera:camera-view", version.ref = "cameraX" }
+
+mlkit-barcodeScanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
+mlkit-barcodeScanningGms = { module = "com.google.android.gms:play-services-mlkit-barcode-scanning", version.ref = "barcodeScanningGms" }
+
+google-materialDesign = { module = "com.google.android.material:material", version.ref = "materialDesign" }
+
+test-junitApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+test-junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+
+misc-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradle" }
+android-library = { id = "com.android.library", version.ref = "androidGradle" }
+
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
+misc-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+misc-gradleVersions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersions" }
