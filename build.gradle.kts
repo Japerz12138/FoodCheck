@@ -15,6 +15,24 @@ plugins {
   alias(libs.plugins.misc.gradleVersions)
 }
 
+buildscript {
+  repositories {
+    // Make sure that you have the following two repositories
+    google()  // Google's Maven repository
+    mavenCentral()  // Maven Central repository
+  }
+
+  dependencies {
+    classpath("com.android.tools.build:gradle:7.2.0")
+
+    // Make sure that you have the Google services Gradle plugin dependency
+    classpath("com.google.gms:google-services:4.3.14")
+
+    // Add the dependency for the App Distribution Gradle plugin
+    classpath("com.google.firebase:firebase-appdistribution-gradle:3.1.1")
+  }
+}
+
 subprojects {
   apply(plugin = rootProject.libs.plugins.misc.detekt.get().pluginId)
   extensions.configure<DetektExtension> {
@@ -23,6 +41,14 @@ subprojects {
     buildUponDefaultConfig = true
     ignoredBuildTypes = listOf("release")
   }
+
+  repositories {
+    // Make sure that you have the following two repositories
+    google()  // Google's Maven repository
+    mavenCentral()  // Maven Central repository
+  }
+
+
   dependencies {
     add("detektPlugins", rootProject.libs.misc.detektFormatting)
   }

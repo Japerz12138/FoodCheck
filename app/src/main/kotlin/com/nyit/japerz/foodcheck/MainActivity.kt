@@ -20,6 +20,9 @@ import com.nyit.japerz.quickie.content.QRContent
 import com.nyit.japerz.foodcheck.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -117,7 +120,10 @@ class MainActivity : AppCompatActivity() {
     // If yes, display the item and store it in history scan list.
 
     //TODO: Database Build up
+    val database = Firebase.database
+    val myRef = database.getReference("message")
 
+    myRef.setValue("Hello, World!")
   }
 
   private fun showSnackbar(result: QRResult) {
