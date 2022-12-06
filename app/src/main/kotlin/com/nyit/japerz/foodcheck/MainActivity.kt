@@ -1,9 +1,11 @@
 package com.nyit.japerz.foodcheck
 
 import android.content.ActivityNotFoundException
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
@@ -20,7 +22,12 @@ import com.nyit.japerz.quickie.content.QRContent
 import com.nyit.japerz.foodcheck.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.view.View
+import android.widget.Button
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Source
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 
@@ -44,6 +51,10 @@ class MainActivity : AppCompatActivity() {
 
   //This will check if the fab's are visible or not
   private var isAllFabVisible: Boolean? = null
+
+  private var currentItem: String? = null
+
+  private lateinit var docRef: DocumentReference
 
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,19 +123,43 @@ class MainActivity : AppCompatActivity() {
       }).also { isAllFabVisible = it }
     })
 
+    //START HERE
 
-    //TODO: History Scan Function
+    val db = Firebase.firestore
 
-    //TODO: AFTER Scan, check if the item with that barcode number is exist in the db,
-    // if not, open a new window to let user to create, add to db, display item.
-    // If yes, display the item and store it in history scan list.
+    docRef = db.collection("iteam_db").document("item1")
 
-    //TODO: Database Build up
-    val database = Firebase.database
-    val myRef = database.getReference("message")
+// Source can be CACHE, SERVER, or DEFAULT.
+    val source = Source.SERVER
 
-    myRef.setValue("Hello, World!")
+// Get the document, forcing the SDK to use the offline cache
+    docRef.get(source).addOnCompleteListener { task ->
+      if (task.isSuccessful) {
+        // Document found in the offline cache
+        val document = task.result
+
+        //TODO:Gotta FIX HERE! ISSUE
+//        var item_name: String? = document.getString("name")
+//
+//
+//        if(item_name == null)
+//        {
+////          textView.text = ""
+//        }
+//        else
+//        {
+//          val textView : TextView = findViewById<TextView>(R.id.idItemName)
+//          textView.text = (item_name)
+//        }
+
+        Log.d(TAG, "Cached document data: ${document?.data}")
+      } else {
+        Log.d(TAG, "Cached get failed: ", task.exception)
+      }
+    }
+
   }
+
 
   private fun showSnackbar(result: QRResult) {
     val text = when (result) {
@@ -133,6 +168,9 @@ class MainActivity : AppCompatActivity() {
       QRMissingPermission -> "Missing permission"
       is QRError -> "${result.exception.javaClass.simpleName}: ${result.exception.localizedMessage}"
     }
+    currentItem = text
+
+    //TODO: Give this text to
 
     Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG).apply {
       view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)?.run {
@@ -144,7 +182,27 @@ class MainActivity : AppCompatActivity() {
       } else {
         setAction(R.string.ok_action) { }
       }
+
     }.show()
+    if (result is QRSuccess)
+    {
+
+      val dialog = BottomSheetDialog(this)
+
+      val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog,null)
+
+      val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
+
+      btnClose.setOnClickListener{
+        dialog.dismiss()
+      }
+
+      dialog.setCancelable(false)
+
+      dialog.setContentView(view)
+
+      dialog.show()
+    }
   }
 
   private fun openUrl(url: String) {

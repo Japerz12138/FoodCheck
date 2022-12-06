@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="272dp"
+      android:layout_margin="2dp">
+
+    <!--image view for displaying course image-->
+
+    <!--text view for displaying course name-->
+
+    <!--text view for displaying course tracks-->
+
+    <TextView
+        android:id="@+id/idItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/idIVCourse"
+        android:layout_toRightOf="@id/idIVCourse"
+        android:text="ITEM NAME"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <!--text view for displaying course duration-->
+
+    <!--button for dismissing our dialog-->
+
+    <TextView
+        android:id="@+id/idCalNum"
+        android:layout_width="101dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idItemName"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/idTVCourseTracks"
+        android:text="Cal"
+
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/idTVCourseDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idTVCourseTracks"
+        android:layout_marginStart="-106dp"
+        android:layout_marginLeft="-106dp"
+        android:layout_marginTop="46dp"
+        android:layout_toEndOf="@id/idIVCourse"
+        android:layout_toRightOf="@id/idIVCourse"
+        android:text="Barcode:"
+
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/idTVCourseTracks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idItemName"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="23dp"
+        android:layout_toEndOf="@id/idIVCourse"
+        android:layout_toRightOf="@id/idIVCourse"
+        android:text="Calories:"
+
+        android:textSize="15sp"/>
+
+    <ImageView
+        android:id="@+id/idIVCourse"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:rotationX="0"
+        android:src="@drawable/ic_scan_barcode"/>
+
+    <Button
+        android:id="@+id/idBtnDismiss"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idIVCourse"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="OK"
+        android:textAllCaps="false"/>
+
+  </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

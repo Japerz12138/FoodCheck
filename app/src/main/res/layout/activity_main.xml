@@ -72,10 +72,6 @@
       app:layout_constraintEnd_toStartOf="@+id/fab_scan_qrcode"
       app:layout_constraintTop_toTopOf="@+id/fab_scan_qrcode" />
 
-
-
-
-
   <TextView
       android:id="@+id/textView"
       android:layout_width="wrap_content"
