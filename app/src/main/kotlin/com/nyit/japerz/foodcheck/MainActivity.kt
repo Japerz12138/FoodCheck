@@ -26,6 +26,7 @@ import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -52,12 +53,14 @@ class MainActivity : AppCompatActivity() {
   //This will check if the fab's are visible or not
   private var isAllFabVisible: Boolean? = null
 
-  private var currentItem: String? = null
+  private lateinit var currentItem: Item
 
   private lateinit var docRef: DocumentReference
-
-
+  private lateinit var docRef2: DocumentReference
+  lateinit var tv_itemName : TextView
+  lateinit var db : FirebaseFirestore
   override fun onCreate(savedInstanceState: Bundle?) {
+//    tv_itemName = findViewById(R.id.idItemName)
     super.onCreate(savedInstanceState)
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
@@ -124,39 +127,11 @@ class MainActivity : AppCompatActivity() {
     })
 
     //START HERE
-
-    val db = Firebase.firestore
-
+    //Initialize Firebase
+    db = Firebase.firestore
     docRef = db.collection("iteam_db").document("item1")
+    currentItem = Item("","" , 0)
 
-// Source can be CACHE, SERVER, or DEFAULT.
-    val source = Source.SERVER
-
-// Get the document, forcing the SDK to use the offline cache
-    docRef.get(source).addOnCompleteListener { task ->
-      if (task.isSuccessful) {
-        // Document found in the offline cache
-        val document = task.result
-
-        //TODO:Gotta FIX HERE! ISSUE
-//        var item_name: String? = document.getString("name")
-//
-//
-//        if(item_name == null)
-//        {
-////          textView.text = ""
-//        }
-//        else
-//        {
-//          val textView : TextView = findViewById<TextView>(R.id.idItemName)
-//          textView.text = (item_name)
-//        }
-
-        Log.d(TAG, "Cached document data: ${document?.data}")
-      } else {
-        Log.d(TAG, "Cached get failed: ", task.exception)
-      }
-    }
 
   }
 
@@ -168,7 +143,7 @@ class MainActivity : AppCompatActivity() {
       QRMissingPermission -> "Missing permission"
       is QRError -> "${result.exception.javaClass.simpleName}: ${result.exception.localizedMessage}"
     }
-    currentItem = text
+
 
     //TODO: Give this text to
 
@@ -190,7 +165,34 @@ class MainActivity : AppCompatActivity() {
       val dialog = BottomSheetDialog(this)
 
       val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog,null)
-
+      docRef2 = db.collection("iteam_db").document(result.content.rawValue)
+      Log.d(TAG, "X123"+result.content.rawValue)
+      val source = Source.SERVER
+//      val test :DocumentReference = db.collection("iteam-db").document("1234");
+      docRef2.get(source).addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+          // Document found in the offline cache
+          val document = task.result
+          currentItem.name = document.getString("name")
+          currentItem.barcode = document.getString("barcode")
+          currentItem.calories = document.getString("cal")?.toInt()
+          if(!currentItem.name.isNullOrEmpty()) {
+            tv_itemName = view.findViewById(R.id.idItemName)
+            tv_itemName.text = currentItem.name
+            var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
+            tv_calories.text = currentItem.calories.toString()
+          }
+          else{
+            Log.d(TAG, "X1234WIP")
+            tv_itemName = view.findViewById(R.id.idItemName)
+            tv_itemName.text = "This item is not present. Please check back later!"
+            var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
+            tv_calories.visibility = View.GONE
+          }
+        } else {
+          //Exception happened
+        }
+      }
       val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
 
       btnClose.setOnClickListener{
@@ -202,6 +204,7 @@ class MainActivity : AppCompatActivity() {
       dialog.setContentView(view)
 
       dialog.show()
+
     }
   }
 
