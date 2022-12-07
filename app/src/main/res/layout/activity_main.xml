@@ -87,7 +87,7 @@
       android:id="@+id/imageView"
       android:layout_width="60dp"
       android:layout_height="60dp"
-      app:tint="@color/purple_500"
+      app:tint="@color/md_theme_light_primary"
       app:layout_constraintBottom_toTopOf="@+id/textView"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

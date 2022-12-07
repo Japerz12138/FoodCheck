@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.handleCoroutineException
 
 
 class MainActivity : AppCompatActivity() {
@@ -161,51 +162,66 @@ class MainActivity : AppCompatActivity() {
     }.show()
     if (result is QRSuccess)
     {
+      if(result.content is QRContent.Url) { } //This will prevent crashes when user scanned an URL QRCode
+      else
+      {
+        val dialog = BottomSheetDialog(this)
 
-      val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog,null)
 
-      val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog,null)
-      docRef2 = db.collection("iteam_db").document(result.content.rawValue)
-      Log.d(TAG, "X123"+result.content.rawValue)
-      val source = Source.SERVER
-//      val test :DocumentReference = db.collection("iteam-db").document("1234");
-      docRef2.get(source).addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-          // Document found in the offline cache
-          val document = task.result
-          currentItem.name = document.getString("name")
-          currentItem.barcode = document.getString("barcode")
-          currentItem.calories = document.getString("cal")?.toInt()
-          if(!currentItem.name.isNullOrEmpty()) {
-            tv_itemName = view.findViewById(R.id.idItemName)
-            tv_itemName.text = currentItem.name
-            var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
-            tv_calories.text = currentItem.calories.toString()
+        docRef2 = db.collection("iteam_db").document(result.content.rawValue)
+        //docRef2 = db.collection("iteam_db").document("075720000814")
+        Log.d(TAG, "X123"+result.content.rawValue)
+        val source = Source.SERVER
+        //This code is for testing in any barcode!
+        //val test :DocumentReference = db.collection("iteam-db").document("075720000814");
+        docRef2.get(source).addOnCompleteListener { task ->
+          if (task.isSuccessful || result.content.rawValue.contains("https://", ignoreCase = true)) {
+            // Document found in the offline cache
+            val document = task.result
+            currentItem.name = document.getString("name")
+            currentItem.barcode = document.getString("barcode")
+            currentItem.calories = document.getString("cal")?.toInt()
+            if(!currentItem.name.isNullOrEmpty()) {
+              tv_itemName = view.findViewById(R.id.idItemName)
+              tv_itemName.text = currentItem.name
+              var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
+              tv_calories.text = currentItem.calories.toString()
+              var tv_barcode = view.findViewById<TextView>(R.id.idBarcodeNum)
+              tv_barcode.text = result.content.rawValue
+            }
+            else{
+              Log.d(TAG, "[CodeERROR]Cannot Find This Code In Database!")
+              Log.d(TAG, "[CodeERROR]Code: " + result.content.rawValue)
+              tv_itemName = view.findViewById(R.id.idItemName)
+              tv_itemName.text = "This item is not present. Please check back later!"
+              var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
+              tv_calories.visibility = View.GONE
+              var tv_caloriesTitle = view.findViewById<TextView>(R.id.idCalTitle)
+              tv_caloriesTitle.visibility = View.GONE
+              var tv_barcode = view.findViewById<TextView>(R.id.idBarcodeNum)
+              tv_barcode.text = result.content.rawValue
+            }
+          } else {
+            //Exception happened
+            Log.d(TAG, "[SystemError] Exception Happened: " + task.exception)
           }
-          else{
-            Log.d(TAG, "X1234WIP")
-            tv_itemName = view.findViewById(R.id.idItemName)
-            tv_itemName.text = "This item is not present. Please check back later!"
-            var tv_calories = view.findViewById<TextView>(R.id.idCalNum)
-            tv_calories.visibility = View.GONE
-          }
-        } else {
-          //Exception happened
         }
+        val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
+
+        btnClose.setOnClickListener{
+          dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+
+        dialog.setContentView(view)
+
+        dialog.show()
+
       }
-      val btnClose = view.findViewById<Button>(R.id.idBtnDismiss)
-
-      btnClose.setOnClickListener{
-        dialog.dismiss()
       }
 
-      dialog.setCancelable(false)
-
-      dialog.setContentView(view)
-
-      dialog.show()
-
-    }
   }
 
   private fun openUrl(url: String) {

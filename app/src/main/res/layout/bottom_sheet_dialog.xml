@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
 xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
 android:layout_height="wrap_content">
 
   <RelativeLayout
@@ -9,46 +10,37 @@ android:layout_height="wrap_content">
       android:layout_height="272dp"
       android:layout_margin="2dp">
 
-    <!--image view for displaying course image-->
-
-    <!--text view for displaying course name-->
-
-    <!--text view for displaying course tracks-->
-
     <TextView
         android:id="@+id/idItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="11dp"
         android:layout_marginLeft="11dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="23dp"
         android:layout_toEndOf="@id/idIVCourse"
         android:layout_toRightOf="@id/idIVCourse"
         android:text="ITEM NAME"
         android:textSize="18sp"
         android:textStyle="bold"/>
 
-    <!--text view for displaying course duration-->
-
-    <!--button for dismissing our dialog-->
-
     <TextView
         android:id="@+id/idCalNum"
         android:layout_width="101dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/idItemName"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="17dp"
-        android:layout_toEndOf="@+id/idTVCourseTracks"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="25dp"
+        android:layout_toEndOf="@+id/idCalTitle"
         android:text="Cal"
 
         android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/idTVCourseDuration"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idTVCourseTracks"
+        android:layout_below="@id/idCalTitle"
         android:layout_marginStart="-106dp"
         android:layout_marginLeft="-106dp"
         android:layout_marginTop="46dp"
@@ -59,13 +51,13 @@ android:layout_height="wrap_content">
         android:textSize="15sp"/>
 
     <TextView
-        android:id="@+id/idTVCourseTracks"
+        android:id="@+id/idCalTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/idItemName"
-        android:layout_marginStart="21dp"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="30dp"
         android:layout_toEndOf="@id/idIVCourse"
         android:layout_toRightOf="@id/idIVCourse"
         android:text="Calories:"
@@ -81,7 +73,8 @@ android:layout_height="wrap_content">
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:rotationX="0"
-        android:src="@drawable/ic_scan_barcode"/>
+        android:src="@drawable/ic_scan_barcode"
+        app:tint="@color/md_theme_light_primary"/>
 
     <Button
         android:id="@+id/idBtnDismiss"
@@ -94,6 +87,17 @@ android:layout_height="wrap_content">
         android:layout_marginBottom="10dp"
         android:text="OK"
         android:textAllCaps="false"/>
+
+    <TextView
+        android:id="@+id/idBarcodeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idCalNum"
+        android:layout_marginStart="-62dp"
+        android:layout_marginTop="43dp"
+        android:layout_toEndOf="@+id/idTVCourseDuration"
+        android:text="Barcode"
+        android:textSize="16sp"/>
 
   </RelativeLayout>
 
